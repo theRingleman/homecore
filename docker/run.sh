@@ -12,5 +12,5 @@ docker run --name="$service" \
 	-c 5120 \
 	-m 2g \
 	-p $externalPort:$appPort \
-	-v ${PWD}/../../src:/var/www/html/ \
+	-v ${PWD}/../src:/var/www/html/ \
 	-d $service
