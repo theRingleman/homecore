@@ -2,7 +2,7 @@
 
 class UsersController extends Controller
 {
-	public function get(){
+	public function index(){
 		echo 'You just got a list of the users';
 	}
 }
