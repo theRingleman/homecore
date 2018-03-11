@@ -3,12 +3,11 @@
 class UsersController extends Controller
 {
 	public function index($f3){
-		$users = [
-			'user1' => 'joe-bob',
-			'user2' => 'jimbo'
-		];
 
-		$f3->set('response', $users);
-		echo \Template::instance()->render('json.php');
+		$users = $this->db->exec('SELECT * FROM Users');
+
+		$this->renderJson($f3, $users);
 	}
+
+	// public function ()
 }
