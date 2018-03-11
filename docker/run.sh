@@ -13,4 +13,5 @@ docker run --name="$service" \
 	-m 2g \
 	-p $externalPort:$appPort \
 	-v ${PWD}/../src:/var/www/html/ \
+	--link homestorage \
 	-d $service
