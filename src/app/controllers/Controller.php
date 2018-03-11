@@ -4,10 +4,13 @@ class Controller {
 
 	public $db;
 
-	public function __construct()
+	public $f3;
+
+	public function __construct($f3)
 	{
+		$this->f3 = $f3;
 		$dbCreds = json_decode(file_get_contents(dirname(__DIR__) . '/creds.json'));
-		
+
 		$this->db = new DB\SQL(
     		'mysql:host=homestorage;port=3306;dbname=homecore',
     		"{$dbCreds->database->username}",
@@ -15,19 +18,19 @@ class Controller {
 		);
 	}
 
-	public function beforeroute($f3) 
+	public function beforeroute() 
 	{
 
 	}
 
-	public function afterroute($f3) 
+	public function afterroute() 
 	{
 		
 	}
 
-	public function renderJson($f3, $response)
+	public function renderJson($response)
 	{
-		$f3->set('response', $response);
+		$this->f3->set('response', $response);
 		echo \Template::instance()->render('json.php');
 	}
 }

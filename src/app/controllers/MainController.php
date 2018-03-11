@@ -2,10 +2,10 @@
 
 class MainController extends Controller
 {
-	public function render($f3)
+	public function render()
 	{
 		echo "<pre>";
-		print_r($f3);
+		print_r($this->f3);
 		echo "<pre>";
 	}
 }
