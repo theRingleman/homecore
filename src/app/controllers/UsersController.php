@@ -4,20 +4,23 @@ class UsersController extends Controller
 {
 	public function index(){
 
-		$users = $this->db->exec('SELECT * FROM Users');
+		$users = (new User($this->db))
+			->all();
 
-		$this->renderJson($users);
+		$endpoint = [];
+
+		foreach ($users as $user) {
+			$endpoint[] = $user->toEndPoint();
+		}
+
+		$this->renderJson($endpoint);
 	}
 
 	public function show()
 	{
-		$user = new DB\SQL\Mapper($this->db, 'Users');
-		$user->load(['username=?', 'theRingleman']);
-		$userEndpoint = [];
-		$userEndpoint['username'] = $user->username;
-		$userEndpoint['firstanme'] = $user->firstname;
-		$userEndpoint['lastname'] = $user->lastname;
-		$userEndpoint['id'] = $user->id;
-		$this->renderJson($userEndpoint);
+		$user = new User($this->db);
+		$user->load(['id=?', '1']);
+		
+		$this->renderJson($user->toEndPoint());
 	}
 }
