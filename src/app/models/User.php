@@ -19,4 +19,10 @@ class User extends Model
 		$this->load();
 		return $this->query;
 	}
+
+	public function getById($id)
+	{
+		$this->load(['id=?', $id]);
+		return $this->query;
+	}
 }
