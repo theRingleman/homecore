@@ -11,13 +11,8 @@ class Controller {
 	public function __construct($f3)
 	{
 		$this->f3 = $f3;
-		$dbCreds = json_decode(file_get_contents(dirname(__DIR__) . '/creds.json'));
-
-		$this->db = new DB\SQL(
-    		'mysql:host=homestorage;port=3306;dbname=homecore',
-    		"{$dbCreds->database->username}",
-    		"{$dbCreds->database->password}"
-		);
+		
+		$this->db = $f3->get("DB");
 	}
 
 	public function beforeroute() 
