@@ -23,6 +23,9 @@ class Controller {
 	public function beforeroute() 
 	{
 		$this->params = $this->f3->get('PARAMS');
+		if ($this->f3->exists('BODY')) {
+			$this->attributes = json_decode($this->f3->get('BODY'));	
+		}
 	}
 
 	public function afterroute() 

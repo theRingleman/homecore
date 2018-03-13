@@ -30,9 +30,6 @@ class UsersController extends Controller
 	public function create()
 	{
 		$user = new User($this->db);
-		$attributes = json_decode($this->f3->get('BODY'));
-		$user->create($attributes);
-
-		print_r($user);
+		$user->create($this->attributes);
 	}
 }
