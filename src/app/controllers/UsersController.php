@@ -18,13 +18,21 @@ class UsersController extends Controller
 
 	public function show()
 	{
-		$params = $this->f3->get('PARAMS');
 		$user = new User($this->db);
-		$user->getById($params['id']);
+		$user->findById($this->params['id']);
 		if (!is_null($user->id)) {
 			$this->renderJson($user->toEndPoint());
 		} else {
 			$this->f3->error(404, "Sorry the user requested does not exist.");
 		}
+	}
+
+	public function create()
+	{
+		$user = new User($this->db);
+		$attributes = json_decode($this->f3->get('BODY'));
+		$user->create($attributes);
+
+		print_r($user);
 	}
 }

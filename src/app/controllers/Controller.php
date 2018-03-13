@@ -6,6 +6,8 @@ class Controller {
 
 	public $f3;
 
+	public $params;
+
 	public function __construct($f3)
 	{
 		$this->f3 = $f3;
@@ -20,7 +22,7 @@ class Controller {
 
 	public function beforeroute() 
 	{
-
+		$this->params = $this->f3->get('PARAMS');
 	}
 
 	public function afterroute() 
