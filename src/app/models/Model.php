@@ -3,6 +3,7 @@
 class Model extends DB\SQL\Mapper
 {
 	public $attributes = [];
+	public $validationRules;
 
 	public function toEndPoint(){
 		$attributes = [];
@@ -33,7 +34,25 @@ class Model extends DB\SQL\Mapper
 	public function create($attributes)
 	{
 		$this->copyFrom($attributes);
-		$this->save();
+		if ($this->validate($attributes)) {
+			$this->save();	
+		}
+	}
+
+	public function validate($attributes)
+	{
+		$attributes = (array)$attributes;
+		$validator = new GUMP;
+		$attributes = $validator->sanitize($attributes);
+		$validator->validation_rules($this->validationRules);
+		$validator->filter_rules($this->filterRules);
+
+		$validatedData = $validator->run($attributes);
+		if ($validatedData === true) {
+			return true;
+		} else {
+			return $validator->get_errors_array();
+		}
 	}
 
 	public function delete($id)
