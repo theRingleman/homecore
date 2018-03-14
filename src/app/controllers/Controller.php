@@ -11,7 +11,6 @@ class Controller {
 	public function __construct($f3)
 	{
 		$this->f3 = $f3;
-		
 		$this->db = $f3->get("DB");
 	}
 
