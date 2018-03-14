@@ -7,6 +7,7 @@ class Controller {
 	public $f3;
 
 	public $params;
+	public $attributes;
 
 	public function __construct($f3)
 	{

@@ -23,13 +23,21 @@ class UsersController extends Controller
 		if (!is_null($user->id)) {
 			$this->renderJson($user->toEndPoint());
 		} else {
-			$this->f3->error(404, "Sorry the user requested does not exist.");
+			
 		}
 	}
 
 	public function create()
 	{
 		$user = new User($this->db);
-		$user->create($this->attributes);
+		$valid = $user->validate($this->attributes);
+		if ($valid === true) {
+			$user->create($this->attributes);
+			$this->renderJson($user->toEndPoint());
+		} else {
+			// TODO we need to figure out how to output the validation errors on error.
+			$this->f3->error(404, "Sorry, but the info you passed in cannot be validated.");
+		}
+		
 	}
 }

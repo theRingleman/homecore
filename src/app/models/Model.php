@@ -24,35 +24,30 @@ class Model extends DB\SQL\Mapper
 		return $this->query;
 	}
 
-	public function edit($id, $attributes)
+	public function edit($id, $values)
 	{
 		$this->load(['id=?', $id]);
-		$this->copyFrom($attributes);
+		$this->copyFrom($values);
 		$this->update();
 	}
 
-	public function create($attributes)
+	public function create($values)
 	{
-		$this->copyFrom($attributes);
-		if ($this->validate($attributes)) {
-			$this->save();	
-		}
+		$this->copyFrom($values);
+		$this->save();	
 	}
 
-	public function validate($attributes)
+	public function validate($values)
 	{
-		$attributes = (array)$attributes;
+		$values = (array)$values;
 		$validator = new GUMP;
-		$attributes = $validator->sanitize($attributes);
+		$values = $validator->sanitize($values);
 		$validator->validation_rules($this->validationRules);
 		$validator->filter_rules($this->filterRules);
 
-		$validatedData = $validator->run($attributes);
-		if ($validatedData === true) {
-			return true;
-		} else {
-			return $validator->get_errors_array();
-		}
+		$validatedData = $validator->run($values);
+
+		return $vaildatedData ? $validatedData : $validator->get_errors_array();
 	}
 
 	public function delete($id)
