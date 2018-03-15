@@ -9,11 +9,13 @@ class Controller {
 	public $params;
 	public $attributes;
 	public $errors;
+	protected $auth;
 
 	public function __construct($f3)
 	{
 		$this->f3 = $f3;
 		$this->db = $f3->get("DB");
+		$this->auth = $f3->get('AUTH');
 	}
 
 	public function beforeroute() 

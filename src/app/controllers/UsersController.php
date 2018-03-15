@@ -4,11 +4,8 @@ class UsersController extends Controller
 {
 	public function signup()
 	{
-		$auth = $this->f3->get("AUTH");
 		try {
-		    $userId = $auth->register($this->attributes->email, $this->attributes->password, $this->attributes->username, function ($selector, $token) {
-		        print_r('We just signed you up');
-		    });
+		    $userId = $this->auth->register($this->attributes->email, $this->attributes->password, $this->attributes->username);
 
 		    print_r("we have signed up a new user with the ID {$userId}");
 		}
@@ -25,6 +22,32 @@ class UsersController extends Controller
 		    // too many requests
 		}
 	}
+
+	public function login() {
+	    if ($this->attributes->remember == 1) {
+            $rememberDuration = (int) (60 * 60 * 24 * 365.25);
+        } else {
+	        $rememberDuration = null;
+        }
+        try {
+            $this->auth->login($this->attributes['email'], $this->attributes['password'], $rememberDuration);
+
+            // user is logged in
+        }
+        catch (\Delight\Auth\InvalidEmailException $e) {
+            // wrong email address
+        }
+        catch (\Delight\Auth\InvalidPasswordException $e) {
+            // wrong password
+        }
+        catch (\Delight\Auth\EmailNotVerifiedException $e) {
+            // email not verified
+        }
+        catch (\Delight\Auth\TooManyRequestsException $e) {
+            // too many requests
+        }
+	}
+
 	public function index(){
 
 		$users = (new User($this->db))
@@ -63,4 +86,5 @@ class UsersController extends Controller
 		}
 		
 	}
+	
 }
