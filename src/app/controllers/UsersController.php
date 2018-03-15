@@ -2,6 +2,29 @@
 
 class UsersController extends Controller
 {
+	public function signup()
+	{
+		$auth = $this->f3->get("AUTH");
+		try {
+		    $userId = $auth->register($this->attributes->email, $this->attributes->password, $this->attributes->username, function ($selector, $token) {
+		        print_r('We just signed you up');
+		    });
+
+		    print_r("we have signed up a new user with the ID {$userId}");
+		}
+		catch (\Delight\Auth\InvalidEmailException $e) {
+		    // invalid email address
+		}
+		catch (\Delight\Auth\InvalidPasswordException $e) {
+		    // invalid password
+		}
+		catch (\Delight\Auth\UserAlreadyExistsException $e) {
+		    print_r('Sorry but you are already here...');
+		}
+		catch (\Delight\Auth\TooManyRequestsException $e) {
+		    // too many requests
+		}
+	}
 	public function index(){
 
 		$users = (new User($this->db))
