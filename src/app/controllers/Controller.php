@@ -8,6 +8,7 @@ class Controller {
 
 	public $params;
 	public $attributes;
+	public $errors;
 
 	public function __construct($f3)
 	{
@@ -26,6 +27,22 @@ class Controller {
 	public function afterroute() 
 	{
 		
+	}
+
+	public function throwError($errors)
+	{
+		$this->f3->set("MODELERRORS", $errors);
+		$this->f3->error(404, 'Sorry but some information could not be validated');
+	}
+
+	public function renderError()
+	{
+		$message = [
+			"message" => $this->f3->get('ERROR.text'),
+			"errors" => $this->f3->get("MODELERRORS")
+		];
+		$this->f3->set('response', $message);
+		echo \Template::instance()->render('json.php');
 	}
 
 	public function renderJson($response)

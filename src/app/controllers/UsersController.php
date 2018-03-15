@@ -36,7 +36,7 @@ class UsersController extends Controller
 			$this->renderJson($user->toEndPoint());
 		} else {
 			// TODO we need to figure out how to output the validation errors on error.
-			$this->f3->error(404, "Sorry, but the info you passed in cannot be validated.");
+			$this->throwError($valid);
 		}
 		
 	}

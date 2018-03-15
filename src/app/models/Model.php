@@ -4,6 +4,8 @@ class Model extends DB\SQL\Mapper
 {
 	public $attributes = [];
 	public $validationRules;
+	public $filterRules;
+	public $errors;
 
 	public function toEndPoint(){
 		$attributes = [];
@@ -39,15 +41,19 @@ class Model extends DB\SQL\Mapper
 
 	public function validate($values)
 	{
-		$values = (array)$values;
 		$validator = new GUMP;
-		$values = $validator->sanitize($values);
+		$values = $validator->sanitize((array)$values);
 		$validator->validation_rules($this->validationRules);
 		$validator->filter_rules($this->filterRules);
 
 		$validatedData = $validator->run($values);
 
 		return $vaildatedData ? $validatedData : $validator->get_errors_array();
+		if($validatedData) {
+			return true;
+		} else {
+			return $validator->get_errors_array();
+		}
 	}
 
 	public function delete($id)
