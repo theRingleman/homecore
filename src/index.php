@@ -19,6 +19,6 @@ $f3->set('DB', new DB\SQL(
 $auth = new \Delight\Auth\Auth($f3->get('DB')->pdo());
 $f3->set('AUTH', $auth);
 
-$f3->set('ONERROR', 'Controller->renderError');
+//$f3->set('ONERROR', 'Controller->renderError');
 
 $f3->run();

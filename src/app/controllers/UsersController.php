@@ -4,52 +4,16 @@ class UsersController extends Controller
 {
 	public function signup()
 	{
-		try {
-		    $userId = $this->auth->register($this->attributes->email, $this->attributes->password, $this->attributes->username);
 
-		    print_r("we have signed up a new user with the ID {$userId}");
-		}
-		catch (\Delight\Auth\InvalidEmailException $e) {
-		    // invalid email address
-		}
-		catch (\Delight\Auth\InvalidPasswordException $e) {
-		    // invalid password
-		}
-		catch (\Delight\Auth\UserAlreadyExistsException $e) {
-		    print_r('Sorry but you are already here...');
-		}
-		catch (\Delight\Auth\TooManyRequestsException $e) {
-		    // too many requests
-		}
 	}
 
-	public function login() {
-	    if ($this->attributes->remember == 1) {
-            $rememberDuration = (int) (60 * 60 * 24 * 365.25);
-        } else {
-	        $rememberDuration = null;
-        }
-        try {
-            $this->auth->login($this->attributes['email'], $this->attributes['password'], $rememberDuration);
+	public function login()
+    {
 
-            // user is logged in
-        }
-        catch (\Delight\Auth\InvalidEmailException $e) {
-            // wrong email address
-        }
-        catch (\Delight\Auth\InvalidPasswordException $e) {
-            // wrong password
-        }
-        catch (\Delight\Auth\EmailNotVerifiedException $e) {
-            // email not verified
-        }
-        catch (\Delight\Auth\TooManyRequestsException $e) {
-            // too many requests
-        }
 	}
 
-	public function index(){
-
+	public function index()
+    {
 		$users = (new User($this->db))
 			->all();
 
@@ -81,10 +45,13 @@ class UsersController extends Controller
 			$user->create($this->attributes);
 			$this->renderJson($user->toEndPoint());
 		} else {
-			// TODO we need to figure out how to output the validation errors on error.
 			$this->throwError($valid);
 		}
 		
 	}
-	
+
+	public function authCheck()
+    {
+
+    }
 }
