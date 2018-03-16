@@ -4,7 +4,7 @@ class User extends Model
 {
 	public $attributes = [
 		"id",
-		"username",
+		"email",
 		"firstname",
 		"lastname"
 	];

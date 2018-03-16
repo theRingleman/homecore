@@ -34,11 +34,19 @@ class UsersController extends Controller
 
 	public function create()
 	{
+//	    @TODO One thing, I am going to have to add a check for unique emails, so we arent creating a
+//        user multiple times.
 		$user = new User($this->db);
 		$valid = $user->validate($this->attributes);
 		if ($valid === true) {
+		    $password = password_hash($this->attributes->password, PASSWORD_DEFAULT);
+		    $this->attributes->password = $password;
 			$user->create($this->attributes);
-			$this->renderJson($user->toEndPoint());
+			$endpoint = [
+			    "message" => "User created successfully",
+                "user" => $user->toEndPoint()
+            ];
+			$this->renderJson($endpoint);
 		} else {
 			$this->throwError($valid);
 		}

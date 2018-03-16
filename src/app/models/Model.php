@@ -39,7 +39,12 @@ class Model extends DB\SQL\Mapper
 		$this->save();	
 	}
 
-	public function validate($values)
+    /**
+     * @param $values
+     * @return array|bool|null
+     * @throws Exception
+     */
+    public function validate($values)
 	{
 		$validator = new GUMP;
 		$values = $validator->sanitize((array)$values);
@@ -48,12 +53,7 @@ class Model extends DB\SQL\Mapper
 
 		$validatedData = $validator->run($values);
 
-		return $vaildatedData ? $validatedData : $validator->get_errors_array();
-		if($validatedData) {
-			return true;
-		} else {
-			return $validator->get_errors_array();
-		}
+        return $validatedData === false ? $validator->get_errors_array() : true;
 	}
 
 	public function delete($id)
