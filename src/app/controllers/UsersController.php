@@ -2,11 +2,6 @@
 
 class UsersController extends Controller
 {
-	public function signup()
-	{
-
-	}
-
 	public function login()
     {
 

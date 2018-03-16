@@ -10,15 +10,17 @@ class User extends Model
 	];
 
 	public $validationRules = [
-		'username' => 'required|alpha_numeric',
 		'firstname' => 'max_len,32|min_len,2|alpha',
 		'lastname' => 'max_len,32|min_len,2|alpha',
+        'email' => 'required|valid_email',
+        'password' => 'required'
 	];
 
 	public $filterRules = [
-		'username' => 'trim|sanitize_string',
 		'firstname' => 'trim|sanitize_string',
-		'lastname' => 'trim|sanitize_string'
+		'lastname' => 'trim|sanitize_string',
+		'email' => 'trim|sanitize_email',
+        'password' => 'trim'
 	];
 
 	public function __construct($db)
