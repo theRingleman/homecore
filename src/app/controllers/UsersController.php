@@ -4,7 +4,13 @@ class UsersController extends Controller
 {
 	public function login()
     {
-
+        $user = new User($this->db);
+        $user->findByEmail($this->attributes->email);
+        if (password_verify($this->attributes->password, $user->password)) {
+            $this->renderJson(["message" => "You are now logged in"]);
+        } else {
+            $this->renderJson(["message" => "Something went horribly wrong..."]);
+        }
 	}
 
 	public function index()

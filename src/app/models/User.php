@@ -28,4 +28,8 @@ class User extends Model
 		parent::__construct($db, 'Users');
 	}
 
+    public function findByEmail($email){
+        $this->load(['email=?', $email]);
+        return $this->query;
+    }
 }
