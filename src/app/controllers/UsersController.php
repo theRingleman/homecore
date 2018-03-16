@@ -2,7 +2,10 @@
 
 class UsersController extends Controller
 {
-	public function login()
+    /**
+     * Allows us to log our user in, this will eventually produce a JWT.
+     */
+    public function login()
     {
         $user = new User($this->db);
         $user->findByEmail($this->attributes->email);
@@ -13,7 +16,10 @@ class UsersController extends Controller
         }
 	}
 
-	public function index()
+    /**
+     * This shows a list of users, this will be moved to an admin section.
+     */
+    public function index()
     {
 		$users = (new User($this->db))
 			->all();
@@ -27,7 +33,10 @@ class UsersController extends Controller
 		$this->renderJson($endpoint);
 	}
 
-	public function show()
+    /**
+     * Shows a specific user.
+     */
+    public function show()
 	{
 		$user = new User($this->db);
 		$user->findById($this->params['id']);
@@ -38,7 +47,11 @@ class UsersController extends Controller
 		}
 	}
 
-	public function create()
+    /**
+     * Allows us to create a new user.
+     * @throws Exception
+     */
+    public function create()
 	{
 //	    @TODO One thing, I am going to have to add a check for unique emails, so we arent creating a
 //        user multiple times.
