@@ -2,6 +2,7 @@
     "require": {
         "bcosca/fatfree": "^3.6",
         "wixel/gump": "dev-master",
-        "lcobucci/jwt": "^3.2"
+        "lcobucci/jwt": "^3.2",
+        "predis/predis": "^1.1"
     }
 }
