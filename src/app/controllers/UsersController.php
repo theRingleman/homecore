@@ -2,6 +2,8 @@
 
 namespace app\controllers;
 
+use app\models\User;
+
 class UsersController extends Controller
 {
     /**
@@ -10,7 +12,7 @@ class UsersController extends Controller
     public function login()
     {
         $user = new User($this->db);
-        $user->findByEmail($this->attributes->email);
+        $user->findByAttribute("email", $this->attributes->email);
         if (password_verify($this->attributes->password, $user->password)) {
 
             $this->renderJson(["message" => "You are now logged in"]);
@@ -42,7 +44,7 @@ class UsersController extends Controller
     public function show()
 	{
 		$user = new User($this->db);
-		$user->findById($this->params['id']);
+		$user->findByAttribute("id", $this->params['id']);
 		if (!is_null($user->id)) {
 			$this->renderJson($user->toEndPoint());
 		} else {
@@ -50,9 +52,9 @@ class UsersController extends Controller
 		}
 	}
 
-    /**
+    /**Email
      * Allows us to create a new user.
-     * @throws Exception
+     * @throws \Exception
      */
     public function create()
 	{
