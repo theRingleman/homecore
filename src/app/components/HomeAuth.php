@@ -28,6 +28,7 @@ class HomeAuth
     }
 
     public function getToken(){
+        $cache = new HomeCache;
         return (string)$this->token;
     }
 
