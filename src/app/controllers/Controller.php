@@ -1,5 +1,7 @@
 <?php
 
+namespace app\controllers;
+
 class Controller {
 
 	public $db;

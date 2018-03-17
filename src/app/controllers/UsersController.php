@@ -1,5 +1,7 @@
 <?php
 
+namespace app\controllers;
+
 class UsersController extends Controller
 {
     /**
@@ -10,6 +12,7 @@ class UsersController extends Controller
         $user = new User($this->db);
         $user->findByEmail($this->attributes->email);
         if (password_verify($this->attributes->password, $user->password)) {
+
             $this->renderJson(["message" => "You are now logged in"]);
         } else {
             $this->renderJson(["message" => "Something went horribly wrong..."]);
