@@ -1,5 +1,5 @@
 <?php
-m
+
 class UsersController extends Controller
 {
     /**
