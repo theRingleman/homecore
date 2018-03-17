@@ -11,6 +11,7 @@ class UsersController extends Controller
         $user->findByAttribute("email", $this->attributes->email);
         if (password_verify($this->attributes->password, $user->password)) {
             $auth = (new HomeAuth($user));
+            $auth->createToken();
             $this->renderJson([
                 "message" => "You are now logged in",
                 "token" => (string)$auth->getToken()

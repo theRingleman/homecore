@@ -7,28 +7,38 @@ class HomeAuth
 {
     private $user;
     private $token;
+    protected $cache;
 
     public function __construct(User $user)
     {
         $this->user = $user;
-        $this->token = $this->setToken();
+        $this->cache = new HomeCache;
     }
 
-    public function setToken()
+    public function createToken()
     {
         $signer = new Sha256();
-        return (new Builder)
+        $token =  (new Builder)
             ->setIssuer("HomeCore")
             ->setId(Helpers::getToken(16))
             ->setIssuedAt(time())
             ->setExpiration(time() + 3600)
-            ->set('uid', $this->user->id)
             ->sign($signer, "testers")
             ->getToken();
+        $this->token = $token;
+    }
+
+    private function storeToken()
+    {
+        $this->cache->redis->hmset("token-{$this->token->getClaim('jti')}", [
+            "userId" => $this->user->id,
+            "expires" => $this->token->getClaim('exp')
+        ]);
     }
 
     public function getToken(){
-        $cache = new HomeCache;
+        $this->createToken();
+        $this->storeToken();
         return (string)$this->token;
     }
 

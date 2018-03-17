@@ -3,7 +3,7 @@
 class HomeCache
 {
 
-    private $redis;
+    public $redis;
 
     public function __construct()
     {
