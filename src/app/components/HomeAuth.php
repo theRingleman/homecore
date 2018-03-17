@@ -2,6 +2,7 @@
 
 use Lcobucci\JWT\Builder;
 use Lcobucci\JWT\Signer\Hmac\Sha256;
+use Lcobucci\JWT\Parser;
 
 class HomeAuth
 {
@@ -42,9 +43,9 @@ class HomeAuth
         return (string)$this->token;
     }
 
-    public function validate()
+    public function validate($token)
     {
-
+        $token = (new Parser)->parse($token);
     }
 
 }
