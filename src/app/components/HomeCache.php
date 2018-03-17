@@ -10,7 +10,7 @@ class HomeCache
         try {
             $this->redis = new Predis\Client([
                 "scheme" => "tcp",
-                "host" => "homecacse",
+                "host" => "homecache",
                 "port" => 6379
             ]);
         } catch(Exception $e){
