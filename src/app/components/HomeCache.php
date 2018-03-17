@@ -3,7 +3,7 @@
 class HomeCache
 {
 
-    public $redis;
+    private $redis;
 
     public function __construct()
     {
@@ -16,6 +16,16 @@ class HomeCache
         } catch(Exception $e){
             echo "Redis did not initialize correctly";
         }
+    }
+
+    public function setHash($title, $hash)
+    {
+        $this->redis->hmset($title, $hash);
+    }
+
+    public function getHash($title)
+    {
+       return $this->redis->hgetall($title);
     }
 
 }

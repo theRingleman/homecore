@@ -30,7 +30,7 @@ class HomeAuth
 
     private function storeToken()
     {
-        $this->cache->redis->hmset("token-{$this->token->getClaim('jti')}", [
+        $this->cache->set("token-{$this->token->getClaim('jti')}", [
             "userId" => $this->user->id,
             "expires" => $this->token->getClaim('exp')
         ]);
