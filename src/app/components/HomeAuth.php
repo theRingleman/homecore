@@ -19,7 +19,7 @@ class HomeAuth
         $signer = new Sha256();
         return (new Builder)
             ->setIssuer("HomeCore")
-            ->setId("1")
+            ->setId(Helpers::getToken(16))
             ->setIssuedAt(time())
             ->setExpiration(time() + 3600)
             ->set('uid', $this->user->id)
