@@ -1,9 +1,5 @@
 <?php
-
-namespace app\controllers;
-
-use app\models\User;
-
+m
 class UsersController extends Controller
 {
     /**

@@ -16,6 +16,6 @@ $f3->set('DB', new DB\SQL(
     "{$dbCreds->database->password}"
 ));
 
-$f3->set('ONERROR', 'Controller->renderError');
+//$f3->set('ONERROR', 'Controller->renderError');
 
 $f3->run();

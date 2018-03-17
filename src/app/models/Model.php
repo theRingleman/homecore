@@ -1,10 +1,6 @@
 <?php
 
-namespace app\models;
-
-use DB\SQL\Mapper;
-
-class Model extends Mapper
+class Model extends DB\SQL\Mapper
 {
 	public $attributes = [];
 	public $validationRules;
@@ -24,7 +20,7 @@ class Model extends Mapper
 
     /**
      * @param $attribute
-     * @param $valueme
+     * @param $value
      * @return array
      */
     public function findByAttribute($attribute, $value){
