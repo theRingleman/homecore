@@ -23,11 +23,12 @@ class Model extends Mapper
 	}
 
     /**
-     * @param $id
+     * @param $attribute
+     * @param $valueme
      * @return array
      */
-    public function findById($id){
-		$this->load(['id=?', $id]);
+    public function findByAttribute($attribute, $value){
+		$this->load(["{$attribute}=?", $value]);
 		return $this->query;
 	}
 
