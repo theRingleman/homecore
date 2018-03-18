@@ -28,7 +28,7 @@ class HomeAuth
      */
     public function createToken()
     {
-        $token =  (new Builder)
+        $token = (new Builder)
             ->setIssuer("HomeCore")
             ->setId(Helpers::getToken(16))
             ->setIssuedAt(time())
@@ -75,7 +75,7 @@ class HomeAuth
      */
     public function validateToken($token)
     {
-        $this->validator->setIssuer("Sam Ringleman");
+        $this->validator->setIssuer("HomeCore");
         $this->token = (new Parser)->parse($token);
         if ($this->validateTokenCache()) {
             if ($this->token->validate($this->validator)) {
