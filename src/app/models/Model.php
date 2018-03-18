@@ -1,6 +1,10 @@
 <?php
 
-class Model extends DB\SQL\Mapper
+namespace models;
+
+use DB\SQL\Mapper;
+
+class Model extends Mapper
 {
 	public $attributes = [];
 	public $validationRules;
@@ -22,12 +26,12 @@ class Model extends DB\SQL\Mapper
      * @param $attribute
      * @param $value
      * @return array
-     * @throws Exception
+     * @throws \Exception
      */
     public function findByAttribute($attribute, $value){
 		$this->load(["{$attribute}=?", $value]);
 		if ($this->dry()) {
-		    throw new Exception("Not found.", 404);
+		    throw new \Exception("Not found.", 404);
         } else {
             return $this->query;
         }
