@@ -35,7 +35,8 @@ class Controller {
      * authenticating.
 	 */
 	protected $allowedRoutes = [
-	    "/login"
+	    "/login",
+        "/users/test"
     ];
 
     /**
@@ -144,10 +145,7 @@ class Controller {
         if (is_null($token = $this->getToken())) {
             $this->f3->error(401, "Missing the proper request headers: Access Denied.");
         } else {
-            if ((new HomeAuth)->validateToken($token)) {
-                print_r("Your token has been validated, welcome.");
-                exit;
-            } else {
+            if (!(new HomeAuth)->validateToken($token)) {
                 print_r("Nope get the f out...");
                 exit;
             }
