@@ -35,7 +35,7 @@ class Controller {
      * authenticating.
 	 */
 	protected $allowedRoutes = [
-	    "/users/login"
+	    "/login"
     ];
 
     /**
