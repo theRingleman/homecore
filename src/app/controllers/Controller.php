@@ -1,5 +1,9 @@
 <?php
 
+namespace controllers;
+
+use components\HomeAuth;
+
 class Controller {
 
 	/**

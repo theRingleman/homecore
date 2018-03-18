@@ -1,5 +1,10 @@
 <?php
 
+namespace controllers;
+
+use components\HomeAuth;
+use models\User;
+
 class UsersController extends Controller
 {
     /**
@@ -10,7 +15,7 @@ class UsersController extends Controller
         $user = new User($this->db);
         try {
             $user->findByAttribute("email", $this->attributes->email);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->f3->error($e->getCode(), "Sorry a user with that email is not registered.");
         }
         if (password_verify($this->attributes->password, $user->password)) {
@@ -85,7 +90,7 @@ class UsersController extends Controller
         $user = new User($this->db);
         try {
             $user->findByAttribute('email', $this->attributes->email);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             print_r("User not found");
         }
     }
