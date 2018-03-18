@@ -95,4 +95,13 @@ class HomeCache
     {
         $this->redis->expire($key, $timestamp);
     }
+
+    /**
+     * Deletes an item from cache.
+     * @param $key
+     */
+    public function delete($key)
+    {
+        return $this->redis->del($key);
+    }
 }
