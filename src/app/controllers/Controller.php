@@ -32,10 +32,10 @@ class Controller {
 
 	/**
 	 * @param $allowedRoutes array Add any routes in this array that you would like to allow without
-     * authenticating the JWT.
+     * authenticating.
 	 */
 	protected $allowedRoutes = [
-	    "users/login"
+	    "/users/login"
     ];
 
 	public function __construct($f3)
@@ -47,22 +47,13 @@ class Controller {
 
 	public function beforeroute() 
 	{
-		$this->params = $this->f3->get('PARAMS');
-		$this->checkRoute();
-	    if (is_null($token = $this->getToken())) {
-	        $this->f3->error(401, "Missing the proper request headers: Access Denied.");
-        } else {
-            if ((new HomeAuth)->validateToken($token)) {
-	            print_r("Your token has been validated, welcome.");
-	            exit;
-            } else {
-	            print_r("Nope get the f out...");
-	            exit;
-            }
+        $this->params = $this->f3->get('PARAMS');
+        if (!$this->checkRoute()) {
+            $this->validate();
         }
-		if ($this->f3->exists('BODY')) {
-			$this->attributes = json_decode($this->f3->get('BODY'));	
-		}
+        if ($this->f3->exists('BODY')) {
+            $this->attributes = json_decode($this->f3->get('BODY'));
+        }
 	}
 
 	public function afterroute() 
@@ -101,5 +92,25 @@ class Controller {
             return $matches[1];
         }
 
+    }
+
+    private function checkRoute()
+    {
+        return in_array($this->params[0], $this->allowedRoutes);
+    }
+
+    private function validate()
+    {
+        if (is_null($token = $this->getToken())) {
+            $this->f3->error(401, "Missing the proper request headers: Access Denied.");
+        } else {
+            if ((new HomeAuth)->validateToken($token)) {
+                print_r("Your token has been validated, welcome.");
+                exit;
+            } else {
+                print_r("Nope get the f out...");
+                exit;
+            }
+        }
     }
 }
