@@ -22,10 +22,15 @@ class Model extends DB\SQL\Mapper
      * @param $attribute
      * @param $value
      * @return array
+     * @throws Exception
      */
     public function findByAttribute($attribute, $value){
 		$this->load(["{$attribute}=?", $value]);
-		return $this->query;
+		if ($this->dry()) {
+		    throw new Exception("Not found.", 404);
+        } else {
+            return $this->query;
+        }
 	}
 
     /**
