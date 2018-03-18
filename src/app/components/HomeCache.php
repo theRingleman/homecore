@@ -30,7 +30,7 @@ class HomeCache
 
     public function exists($key)
     {
-        $this->redis->exist($key);
+        $this->redis->exists($key);
     }
 
     public function setHash($title, $hash)
