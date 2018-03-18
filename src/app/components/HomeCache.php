@@ -18,6 +18,21 @@ class HomeCache
         }
     }
 
+    public function set($key, $value)
+    {
+        $this->redis->set($key, $value);
+    }
+
+    public function get($key)
+    {
+        $this->redis->get($key);
+    }
+
+    public function exists($key)
+    {
+        $this->redis->exist($key);
+    }
+
     public function setHash($title, $hash)
     {
         $this->redis->hmset($title, $hash);

@@ -33,6 +33,8 @@ class HomeAuth
             "userId" => $this->user->id,
             "expires" => $this->token->getClaim('exp')
         ]);
+
+        $this->cache->set();
     }
 
     public function getToken($user){
