@@ -1,5 +1,7 @@
 <?php
 
+namespace components;
+
 class Helpers
 {
     /**
@@ -8,7 +10,7 @@ class Helpers
      *
      * @param $length
      * @return string
-     * @throws Exception
+     * @throws \Exception
      */
     public static function getToken($length)
     {

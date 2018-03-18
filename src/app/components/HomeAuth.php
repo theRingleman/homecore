@@ -1,9 +1,12 @@
 <?php
 
+namespace components;
+
 use Lcobucci\JWT\Builder;
 use Lcobucci\JWT\Signer\Hmac\Sha256;
 use Lcobucci\JWT\Parser;
 use Lcobucci\JWT\ValidationData;
+use models\User;
 
 class HomeAuth
 {
@@ -24,7 +27,7 @@ class HomeAuth
     /**
      * Creates the JWT and sets all the claims and signs it.
      *
-     * @throws Exception
+     * @throws \Exception
      */
     public function createToken()
     {

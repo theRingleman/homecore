@@ -1,5 +1,9 @@
 <?php
 
+namespace components;
+
+use Predis\Client;
+
 class HomeCache
 {
 
@@ -8,12 +12,12 @@ class HomeCache
     public function __construct()
     {
         try {
-            $this->redis = new Predis\Client([
+            $this->redis = new Client([
                 "scheme" => "tcp",
                 "host" => "homecache",
                 "port" => 6379
             ]);
-        } catch(Exception $e){
+        } catch(\Exception $e){
             echo "Redis did not initialize correctly";
         }
     }
@@ -76,12 +80,12 @@ class HomeCache
      *
      * @param $key
      * @param $seconds
-     * @throws Exception
+     * @throws \Exception
      */
     public function expire($key, $seconds)
     {
         if (!is_int($seconds)) {
-            throw new Exception("Seconds must be of type int");
+            throw new \Exception("Seconds must be of type int");
         }
         $this->redis->expire($key, $seconds);
     }
@@ -99,6 +103,7 @@ class HomeCache
     /**
      * Deletes an item from cache.
      * @param $key
+     * @return int
      */
     public function delete($key)
     {
