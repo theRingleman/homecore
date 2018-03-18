@@ -6,25 +6,23 @@ use Lcobucci\JWT\Parser;
 
 class HomeAuth
 {
-    private $user;
     private $token;
     protected $cache;
 
-    public function __construct(User $user)
+    public function __construct()
     {
-        $this->user = $user;
         $this->cache = new HomeCache;
+        $this->signer = new Sha256();
     }
 
     public function createToken()
     {
-        $signer = new Sha256();
         $token =  (new Builder)
             ->setIssuer("HomeCore")
             ->setId(Helpers::getToken(16))
             ->setIssuedAt(time())
             ->setExpiration(time() + 3600)
-            ->sign($signer, "testers")
+            ->sign($this->signer, "testers")
             ->getToken();
         $this->token = $token;
     }
@@ -37,7 +35,8 @@ class HomeAuth
         ]);
     }
 
-    public function getToken(){
+    public function getToken($user){
+        $this->user = $user;
         $this->createToken();
         $this->storeToken();
         return (string)$this->token;
@@ -45,9 +44,8 @@ class HomeAuth
 
     public function validate($token)
     {
-        $signer = new Sha256();
         $token = (new Parser)->parse($token);
-        if ($token->verify($signer, "testers")) {
+        if ($token->verify($this->signer, "testers")) {
            $this->token = $token;
            return true;
         } else {

@@ -10,10 +10,10 @@ class UsersController extends Controller
         $user = new User($this->db);
         $user->findByAttribute("email", $this->attributes->email);
         if (password_verify($this->attributes->password, $user->password)) {
-            $auth = (new HomeAuth($user));
+            $auth = (new HomeAuth);
             $this->renderJson([
                 "message" => "You are now logged in",
-                "token" => (string)$auth->getToken()
+                "token" => (string)$auth->getToken($user)
             ]);
         } else {
             $this->renderJson(["message" => "Something went horribly wrong..."]);
@@ -78,9 +78,7 @@ class UsersController extends Controller
 
 	public function test()
     {
-        $user = (new User($this->db));
-        $user->findByAttribute('email', "sam.ringleman@gmail.com");
-        $auth = new HomeAuth($user);
+        $auth = new HomeAuth;
         if ($auth->validate($this->attributes->token)) {
             $token = $auth->getTokenFromCache();
             print_r($token);
