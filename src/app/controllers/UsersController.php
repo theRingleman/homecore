@@ -8,7 +8,11 @@ class UsersController extends Controller
     public function login()
     {
         $user = new User($this->db);
-        $user->findByAttribute("email", $this->attributes->email);
+        try {
+            $user->findByAttribute("email", $this->attributes->email);
+        } catch (Exception $e) {
+            $this->f3->error($e->getCode(), "Sorry a user with that email is not registered.");
+        }
         if (password_verify($this->attributes->password, $user->password)) {
             $auth = (new HomeAuth);
             $this->renderJson([
@@ -78,7 +82,11 @@ class UsersController extends Controller
 
 	public function test()
     {
-        print_r($this->f3->get("HEADERS")['Authorization']);
-        exit;
+        $user = new User($this->db);
+        try {
+            $user->findByAttribute('email', $this->attributes->email);
+        } catch (Exception $e) {
+            print_r("User not found");
+        }
     }
 }
