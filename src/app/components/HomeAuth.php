@@ -71,7 +71,11 @@ class HomeAuth
     {
         $this->validator->setIssuer("Sam Ringleman");
         $this->token = (new Parser)->parse($token);
-        return $this->token->validate($this->validator) ? $this->verifyToken() : $this->token->validate($this->validator);
+        if ($this->token->validate($this->validator)) {
+            $this->verifyToken();
+        } else {
+            $this->deleteCachedTokens();
+        }
     }
 
     /**
@@ -80,7 +84,12 @@ class HomeAuth
      */
     private function verifyToken()
     {
-        return $this->token->verify($this->signer, 'testers');
+        if ($this->token->verify($this->signer, 'testers')) {
+            return true;
+        } else {
+            $this->deleteCachedTokens();
+            return false;
+        }
     }
 
     /**
@@ -90,6 +99,12 @@ class HomeAuth
     public function getTokenFromCache()
     {
         return $this->cache->getHash("token-{$this->token->getClaim('jti')}");
+    }
+
+    private function deleteCachedTokens()
+    {
+        $this->cache->set("token-{$this->user->id}", false);
+        return $this->cache->delete("token-{$this->token->getClaim('jti')}");
     }
 
 }

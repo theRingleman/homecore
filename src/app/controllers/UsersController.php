@@ -79,10 +79,10 @@ class UsersController extends Controller
 	public function test()
     {
         $auth = new HomeAuth;
-        if ($auth->validate($this->attributes->token)) {
-            $token = $auth->getTokenFromCache();
-            print_r($token);
-            exit;
+        if ($auth->validateToken($this->attributes->token)) {
+            print_r('this got validated');
+        } else {
+            print_r('it did not get validated');
         }
     }
 }
