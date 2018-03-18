@@ -45,7 +45,19 @@ class HomeAuth
 
     public function validate($token)
     {
+        $signer = new Sha256();
         $token = (new Parser)->parse($token);
+        if ($token->verify($signer, "testers")) {
+           $this->token = $token;
+           return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function getTokenFromCache()
+    {
+        return $this->cache->getHash("token-{$this->token->getClaim('jti')}");
     }
 
 }

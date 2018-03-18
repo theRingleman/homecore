@@ -75,4 +75,16 @@ class UsersController extends Controller
 		}
 		
 	}
+
+	public function test()
+    {
+        $user = (new User($this->db));
+        $user->findByAttribute('email', "sam.ringleman@gmail.com");
+        $auth = new HomeAuth($user);
+        if ($auth->validate($this->attributes->token)) {
+            $token = $auth->getTokenFromCache();
+            print_r($token);
+            exit;
+        }
+    }
 }
