@@ -89,7 +89,6 @@ class HomeAuth
         }
     }
 
-
     /**
      * This verifies the tokens signer.
      *

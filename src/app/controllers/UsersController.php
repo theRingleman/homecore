@@ -78,8 +78,7 @@ class UsersController extends Controller
 
 	public function test()
     {
-        $cache = new HomeCache;
-        var_dump($cache->get('something'));
+        print_r($this->f3->get("HEADERS")['Authorization']);
         exit;
     }
 }
