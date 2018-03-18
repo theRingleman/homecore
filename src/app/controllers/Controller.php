@@ -38,14 +38,22 @@ class Controller {
 	    "/users/login"
     ];
 
-	public function __construct($f3)
+    /**
+     * Controller constructor.
+     * @param $f3 Base
+     */
+    public function __construct($f3)
 	{
 		$this->f3 = $f3;
 		$this->db = $f3->get("DB");
 		$this->auth = $f3->get('AUTH');
 	}
 
-	public function beforeroute() 
+    /**
+     * Handles anything you want done before routing, in this case auth and converting the request body to a
+     * JSON decoded object.
+     */
+    public function beforeroute()
 	{
         $this->params = $this->f3->get('PARAMS');
         if (!$this->checkRoute()) {
@@ -56,18 +64,30 @@ class Controller {
         }
 	}
 
-	public function afterroute() 
+    /**
+     * Handles anything you want done after routing.
+     */
+    public function afterroute()
 	{
 		
 	}
 
-	public function throwError($errors)
+    /**
+     * Primarily for model errors, when they dont validate.
+     * @TODO Again update when we go nuts on error handling.
+     * @param $errors
+     */
+    public function throwError($errors)
 	{
 		$this->f3->set("MODELERRORS", $errors);
 		$this->f3->error(404, 'Sorry but some information could not be validated');
 	}
 
-	public function renderError()
+    /**
+     * Returns errors in JSON format.
+     * @TODO I need to update this so I can render all errors.
+     */
+    public function renderError()
 	{
 		$message = [
 			"message" => $this->f3->get('ERROR.text'),
@@ -77,13 +97,23 @@ class Controller {
 		echo \Template::instance()->render('json.php');
 	}
 
-	public function renderJson($response)
+    /**
+     * Sends our response to the json view which converts our response to json.
+     *
+     * @param $response array
+     */
+    public function renderJson(array $response)
 	{
 		$this->f3->set('response', $response);
 		echo \Template::instance()->render('json.php');
 	}
 
-	private function getToken()
+    /**
+     * Gets our token from the request headers.
+     *
+     * @return null|string
+     */
+    private function getToken()
     {
         if (is_null($header = $this->f3->get("HEADERS")['Authorization'])) {
             return null;
@@ -94,11 +124,21 @@ class Controller {
 
     }
 
+    /**
+     * We want to allow certain routes to bypass auth, you have to add the route you want to bypass in the
+     * @link $allowedRoutes array.
+     *
+     * @return bool
+     */
     private function checkRoute()
     {
         return in_array($this->params[0], $this->allowedRoutes);
     }
 
+    /**
+     * Runs validation on the auth token, will not let you in if you are not authorized.
+     * @TODO Finish the logic for when we are not validated.
+     */
     private function validate()
     {
         if (is_null($token = $this->getToken())) {
